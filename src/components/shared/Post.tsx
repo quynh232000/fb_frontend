@@ -29,20 +29,54 @@ import icon_haha from "../../assets/base/icon/icon_haha.svg";
 import { AiFillLike } from "react-icons/ai";
 import { RiMessage3Fill } from "react-icons/ri";
 import CommentItem from "../comment/CommentItem";
+import { IoSend } from "react-icons/io5";
 
-const Post = () => {
+type PostProps = {
+  type: string;
+};
+const Post = ({ type = "user" }: PostProps) => {
   // const [openMenu, setOpenMenu] = useState(false);
+  const data = [
+    "https://www.lovepanky.com/wp-content/uploads/2016/02/cute-vs-hot-girl.jpg",
+    "https://cdn.pixabay.com/photo/2020/03/17/12/02/vietnam-4940070_1280.jpg",
+    "https://cdn.pixabay.com/photo/2020/03/17/12/01/vietnam-4940057_960_720.jpg",
+    "https://hinhgaixinh.com/wp-content/uploads/2021/03/20210226-nu-sinh-de-thuong-12-600x900.jpg",
+    "https://www.vietnamfineart.com.vn/wp-content/uploads/2023/07/gai-xinh-toc-dai-deo-kinh-dep-25-edited.jpg",
+    "https://ambalgvn.org.vn/wp-content/uploads/Hinh-anh-con-gai-cute-de-thuong2B252852529.jpg",
+    "https://cdn.alongwalk.info/vn/wp-content/uploads/2022/05/22054257/image-anh-gai-xinh-deo-kinh-toc-dai-toc-ngan-dang-yeu-cute-nhat-2022-165314777639174.jpg",
+    "https://toigingiuvedep.vn/wp-content/uploads/2022/05/anh-gai-xinh-toc-dai-deo-kinh.jpg",
+  ];
   return (
     <div className="bg-dark-bg rounded-lg p-4">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <div className="w-[40px] h-[40px] rounded-full border-2 border-primary-500">
-            <img
-              className="w-full h-full object-cover rounded-full"
-              src="https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-1/426520609_402030988976166_4423746547630129466_n.jpg?stp=c0.0.40.40a_cp0_dst-jpg_p40x40&_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_ohc=IWBEXxvlKqsAb4FYSLQ&_nc_ht=scontent.fsgn2-5.fna&oh=00_AfCCR8nD9ssYBVF2jmmcOBk__baiYMeq4WSksjr1YJ7qAA&oe=6632F79D"
-              alt=""
-            />
-          </div>
+          {type == "group" ? (
+            <div className="relative">
+              <div className="w-[36px] h-[36px] rounded-lg ">
+                <img
+                  className="w-full h-full object-cover rounded-lg"
+                  src="https://ttgdtxphuquoc.edu.vn/hinh-con-gai-de-thuong/imager_44_4093_700.jpg"
+                  alt=""
+                />
+              </div>
+              <div className="w-[24px] h-[24px] rounded-full border border-input absolute right-[-5px] bottom-[-5px]">
+                <img
+                  className="w-full h-full object-cover rounded-full"
+                  src="https://ttgdtxphuquoc.edu.vn/hinh-con-gai-de-thuong/imager_44_4093_700.jpg"
+                  alt=""
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="w-[40px] h-[40px] rounded-full border-2 border-primary-500">
+              <img
+                className="w-full h-full object-cover rounded-full"
+                src="https://ttgdtxphuquoc.edu.vn/hinh-con-gai-de-thuong/imager_44_4093_700.jpg"
+                alt=""
+              />
+            </div>
+          )}
+
           <div className="flex flex-col">
             <h3 className="font-bold">
               <Tippy
@@ -52,12 +86,25 @@ const Post = () => {
                 delay={[200, 200]}
                 render={() => <TippyUserView />}
               >
-                <Link to="">
+                <Link to={`/${type =='group'?"groups":"user"}/1234`}>
                   <button>Lê Thị Hải Yến</button>
                 </Link>
               </Tippy>
             </h3>
             <div className="flex items-center gap-1 text-[14px] text-text font-medium">
+              {type=='group'&&<h3 className="font-medium">
+                <Tippy
+                  // visible={false}
+                  interactive
+                  placement="bottom"
+                  delay={[200, 200]}
+                  render={() => <TippyUserView />}
+                >
+                  <Link to="/user/123">
+                    <button>Lê Thị Hải Yến</button>
+                  </Link>
+                </Tippy>
+              </h3>}
               <div>2 giờ</div>
               <span>·</span>
               <div>
@@ -196,7 +243,7 @@ const Post = () => {
           và góp ý về cv của em với ạ, cảm ơn mọi người!!
         </p>
         <div>
-          <GroupImage />
+          <GroupImage arrayImg={data} />
         </div>
         <div className="flex items-center justify-between text-text py-4">
           <Link to="" className="flex items-center gap-2 ">
@@ -211,7 +258,7 @@ const Post = () => {
                 <img className="w-[18px] h-[18px]" src={icon_haha} alt="" />
               </div>
             </div>
-            <span>28 Phương Uyên và 27 người khác </span>
+            <span>2.8k </span>
           </Link>
           <Link to="/" className="flex gap-2">
             <div>14</div>
@@ -234,9 +281,32 @@ const Post = () => {
         </div>
       </div>
       <div className="flex flex-col gap-2 py-2">
-        <div className="text-text font-medium">Xem thêm bình luận</div>
+        <div className="text-text font-medium cursor-pointer hover:text-gray-400 hover:underline">
+          Xem thêm bình luận
+        </div>
         <div>
-          <CommentItem/>
+          <CommentItem />
+          <CommentItem />
+          <CommentItem />
+        </div>
+      </div>
+      <div className="flex gap-2 items-center">
+        <div className="w-[32px] h-[32px] rounded-full">
+          <img
+            className="w-full h-full rounded-full"
+            src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-1/279841216_1091212664941555_4727043539452060717_n.jpg?stp=c0.9.32.32a_cp0_dst-jpg_p32x32&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=Lv_cvTdyTjoAb61XbQA&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfAZ8J3T96v2Mr6sJPy9mowLUoAAXXfQ6cy6NXZAHEOpeQ&oe=6634508B"
+            alt=""
+          />
+        </div>
+        <div className="flex-1 flex items-center bg-input rounded-full px-4 py-1">
+          <input
+            type="text"
+            placeholder="Bình luận với vai trò JuJo Bin"
+            className="flex-1 bg-transparent"
+          />
+          <button className="hover:bg-dark-bg hover:text-primary-500 pr-2 py-2 pl-3 rounded-full flex justify-center items-center">
+            <IoSend />
+          </button>
         </div>
       </div>
     </div>

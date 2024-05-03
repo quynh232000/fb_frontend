@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@material-tailwind/react": "2.1.2",
+    "@react-hook/media-query": "^1.1.1",
     "@reduxjs/toolkit": "^2.2.3",
     "@types/react": "18.2.42",
     "react": "18.2.0",

@@ -17,7 +17,7 @@ const TippyUserView = () => {
           <span className="absolute w-[18px] h-[18px] border-2 border-dark-bg bg-green-500  rounded-full right-[4px] bottom-0 "></span>
         </div>
         <div className="flex flex-col gap-3 ">
-          <Link to={"/"}>
+          <Link to={"/user/123"}>
             <h4 className="font-bold text-[20px] ">Lê Thị Hải Yến</h4>
           </Link>
           <div className="flex flex-col gap-3 ">

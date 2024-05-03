@@ -1,6 +1,16 @@
 import { Link } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { openChat } from "../../redux/reducers/chatBoxReducer";
 const SidebarRight = () => {
+  const dispatch = useDispatch();
+  
+  
+  const handleOpenChat = (id:number) => {
+    dispatch(
+      openChat(id)
+    );
+  }
+
   return (
     <div className="flex flex-col h-full overflow-y-scroll pt-4  scrollbar_custom_hidden">
       <div className="px-[8px] mt-2">
@@ -13,7 +23,7 @@ const SidebarRight = () => {
           <div className="w-30  object-cover rounded-lg">
             <img
               className=" rounded-lg w-100"
-              src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t45.1600-4/436727601_120209346103210416_720014209469974084_n.jpg?stp=dst-jpg_p476x249&_nc_cat=1&ccb=1-7&_nc_sid=567a6d&_nc_ohc=jos7jLWVXf8Ab4Lh-xG&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfANyB3ERDKUt56_kU9XEzmAeA6PKvSWhcE77Iy-9RJo7A&oe=6632D16C"
+              src="https://gcs.tripi.vn/public-tripi/tripi-feed/img/474056CSk/anh-avatar-viet-nam-cute-ngau-tuyet-dep-18.jpg"
               alt=""
             />
           </div>
@@ -31,7 +41,7 @@ const SidebarRight = () => {
           <div className="w-30 object-cover rounded-lg">
             <img
               className=" rounded-lg w-100"
-              src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t45.1600-4/421593585_120204771195030641_6653615791545580431_n.png?stp=cp0_dst-jpg_p296x100_q90_spS444&_nc_cat=1&ccb=1-7&_nc_sid=5f2048&_nc_ohc=z6XT4Z6iUuAAb51d9RV&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfDcQf765kce3U-72BN4vEdGHrXqb707xybXppMTjUMdPw&oe=6632AEE6"
+              src="https://bizweb.dktcdn.net/100/330/208/files/hinh-nen-anime-mau-hong-cute-7.jpg?v=1649317713788"
               alt=""
             />
           </div>
@@ -62,20 +72,8 @@ const SidebarRight = () => {
           className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
         >
           <div>
-            <i
-              data-visualcompletion="css-img"
-              className="rounded-full"
-              style={{
-                backgroundImage:
-                  "url('https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-1/279841216_1091212664941555_4727043539452060717_n.jpg?stp=c0.12.40.40a_cp0_dst-jpg_p40x40&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=dJrrCLZDRQkAb4_RiX-&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfB-M3YrI_fO7yOv6xzhAbikBXmzgZdF21-7kaJf0NFdvw&oe=66328E8B')",
-                backgroundPosition: "0 -0px",
-                backgroundSize: "auto",
-                width: "36px",
-                height: "36px",
-                backgroundRepeat: "no-repeat",
-                display: "inline-block",
-              }}
-            ></i>
+            <img className="w-[36px]  h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="" />
+            
           </div>
           <div className="size-[16px] flex-1 leading-[16px]">
             Lập trình PHP - Laravel Việt Nam
@@ -127,190 +125,87 @@ const SidebarRight = () => {
       </div>
 
       <div className="flex flex-col">
-        <Link
-          to={"/profile"}
+        <div
+          onClick={()=>handleOpenChat(1)}
           className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
         >
           <div className="relative">
-            <i
-              data-visualcompletion="css-img"
-              className="rounded-full border-2 border-primary-500"
-              style={{
-                backgroundImage:
-                  "url('https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-1/279841216_1091212664941555_4727043539452060717_n.jpg?stp=c0.12.40.40a_cp0_dst-jpg_p40x40&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=dJrrCLZDRQkAb4_RiX-&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfB-M3YrI_fO7yOv6xzhAbikBXmzgZdF21-7kaJf0NFdvw&oe=66328E8B')",
-                backgroundPosition: "0 -0px",
-                backgroundSize: "auto",
-                width: "36px",
-                height: "36px",
-                backgroundRepeat: "no-repeat",
-                display: "inline-block",
-              }}
-            ></i>
+            <img className="w-[36px] h-[36px] rounded-full object-cover border-2 border-primary-500" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
             <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span>
           </div>
           <div className="size-[16px] flex-1 leading-[16px]">JoJo Bin</div>
-        </Link>
-        <Link
-          to={"/profile"}
+        </div>
+        <div onClick={()=>handleOpenChat(2)}
+          
           className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
         >
           <div className="relative">
-            <i
-              data-visualcompletion="css-img"
-              className="rounded-full"
-              style={{
-                backgroundImage:
-                  "url('https://scontent.fsgn2-7.fna.fbcdn.net/v/t1.6435-1/148864919_257667505870889_5549726473974872721_n.jpg?stp=cp0_dst-jpg_s40x40&_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=kGpCYBHkhagAb5na4iq&_nc_ht=scontent.fsgn2-7.fna&oh=00_AfBWJVs1j7riRUcTY0NpEekJXOegsJcPbk8F3oBdhS41ow&oe=6654444C')",
-                backgroundPosition: "0 -0px",
-                backgroundSize: "auto",
-                width: "36px",
-                height: "36px",
-                backgroundRepeat: "no-repeat",
-                display: "inline-block",
-              }}
-            ></i>
+            <img className="w-[36px] h-[36px] border-2 border-primary-500 rounded-full object-cover" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
+        
             {/* <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span> */}
           </div>
           <div className="size-[16px] flex-1 leading-[16px]">Nguyễn Năng</div>
-        </Link>
-        <Link
-          to={"/profile"}
+        </div>
+        <div onClick={()=>handleOpenChat(3)}
+       
           className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
         >
           <div className="relative">
-            <i
-              data-visualcompletion="css-img"
-              className="rounded-full"
-              style={{
-                backgroundImage:
-                  "url('https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-1/362896395_3539529232935241_3424559167839360772_n.jpg?stp=cp0_dst-jpg_p40x40&_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_ohc=zYTUgiIvl-oAb6KIaUK&_nc_ht=scontent.fsgn2-9.fna&oh=00_AfCOBPDm8pgKbNuuhz-4j9O9MsYPveQoecOm0UIPJGroiQ&oe=66329C74')",
-                backgroundPosition: "0 -0px",
-                backgroundSize: "auto",
-                width: "36px",
-                height: "36px",
-                backgroundRepeat: "no-repeat",
-                display: "inline-block",
-              }}
-            ></i>
+          <img className="w-[36px] h-[36px] rounded-full object-cover" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
             {/* <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span> */}
           </div>
           <div className="size-[16px] flex-1 leading-[16px]">Huyền Trang</div>
-        </Link>
-        <Link
-          to={"/profile"}
+        </div>
+        <div onClick={()=>handleOpenChat(4)}
+          
           className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
         >
           <div className="relative">
-            <i
-              data-visualcompletion="css-img"
-              className="rounded-full"
-              style={{
-                backgroundImage:
-                  "url('https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-1/438260242_3720567394893048_2224955754399678893_n.jpg?stp=cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=7wMRoT9QVq0Ab4D-l45&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfBlghNSE7k8rv8iYOdhiF9dvSivKtyKVa-OSOwm-Dg57w&oe=6632CB82')",
-                backgroundPosition: "0 -0px",
-                backgroundSize: "auto",
-                width: "36px",
-                height: "36px",
-                backgroundRepeat: "no-repeat",
-                display: "inline-block",
-              }}
-            ></i>
+          <img className="w-[36px] h-[36px] rounded-full object-cover" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
             {/* <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span> */}
           </div>
           <div className="size-[16px] flex-1 leading-[16px]">Thu Phương</div>
-        </Link>
-        <Link
-          to={"/profile"}
+        </div>
+        <div onClick={()=>handleOpenChat(5)}
+          
           className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
         >
           <div className="relative">
-            <i
-              data-visualcompletion="css-img"
-              className="rounded-full border-2 border-primary-500"
-              style={{
-                backgroundImage:
-                  "url('https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-1/279841216_1091212664941555_4727043539452060717_n.jpg?stp=c0.12.40.40a_cp0_dst-jpg_p40x40&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=dJrrCLZDRQkAb4_RiX-&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfB-M3YrI_fO7yOv6xzhAbikBXmzgZdF21-7kaJf0NFdvw&oe=66328E8B')",
-                backgroundPosition: "0 -0px",
-                backgroundSize: "auto",
-                width: "36px",
-                height: "36px",
-                backgroundRepeat: "no-repeat",
-                display: "inline-block",
-              }}
-            ></i>
+            <img className="w-[36px] h-[36px] rounded-full object-cover" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
             <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span>
           </div>
           <div className="size-[16px] flex-1 leading-[16px]">JoJo Bin</div>
-        </Link>
-        <Link
-          to={"/profile"}
+        </div>
+        <div onClick={()=>handleOpenChat(6)}
+          
           className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
         >
           <div className="relative">
-            <i
-              data-visualcompletion="css-img"
-              className="rounded-full"
-              style={{
-                backgroundImage:
-                  "url('https://scontent.fsgn2-7.fna.fbcdn.net/v/t1.6435-1/148864919_257667505870889_5549726473974872721_n.jpg?stp=cp0_dst-jpg_s40x40&_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=kGpCYBHkhagAb5na4iq&_nc_ht=scontent.fsgn2-7.fna&oh=00_AfBWJVs1j7riRUcTY0NpEekJXOegsJcPbk8F3oBdhS41ow&oe=6654444C')",
-                backgroundPosition: "0 -0px",
-                backgroundSize: "auto",
-                width: "36px",
-                height: "36px",
-                backgroundRepeat: "no-repeat",
-                display: "inline-block",
-              }}
-            ></i>
+          <img className="w-[36px] h-[36px] rounded-full object-cover" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
             {/* <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span> */}
           </div>
           <div className="size-[16px] flex-1 leading-[16px]">Nguyễn Năng</div>
-        </Link>
-        <Link
-          to={"/profile"}
+        </div>
+        <div onClick={()=>handleOpenChat(7)}
+          
           className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
         >
           <div className="relative">
-            <i
-              data-visualcompletion="css-img"
-              className="rounded-full"
-              style={{
-                backgroundImage:
-                  "url('https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-1/362896395_3539529232935241_3424559167839360772_n.jpg?stp=cp0_dst-jpg_p40x40&_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_ohc=zYTUgiIvl-oAb6KIaUK&_nc_ht=scontent.fsgn2-9.fna&oh=00_AfCOBPDm8pgKbNuuhz-4j9O9MsYPveQoecOm0UIPJGroiQ&oe=66329C74')",
-                backgroundPosition: "0 -0px",
-                backgroundSize: "auto",
-                width: "36px",
-                height: "36px",
-                backgroundRepeat: "no-repeat",
-                display: "inline-block",
-              }}
-            ></i>
+          <img className="w-[36px] h-[36px] rounded-full object-cover" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
             {/* <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span> */}
           </div>
           <div className="size-[16px] flex-1 leading-[16px]">Huyền Trang</div>
-        </Link>
-        <Link
-          to={"/profile"}
+        </div>
+        <div
+          onClick={()=>handleOpenChat(8)}
           className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
         >
           <div className="relative">
-            <i
-              data-visualcompletion="css-img"
-              className="rounded-full"
-              style={{
-                backgroundImage:
-                  "url('https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-1/438260242_3720567394893048_2224955754399678893_n.jpg?stp=cp0_dst-jpg_p40x40&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=7wMRoT9QVq0Ab4D-l45&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfBlghNSE7k8rv8iYOdhiF9dvSivKtyKVa-OSOwm-Dg57w&oe=6632CB82')",
-                backgroundPosition: "0 -0px",
-                backgroundSize: "auto",
-                width: "36px",
-                height: "36px",
-                backgroundRepeat: "no-repeat",
-                display: "inline-block",
-              }}
-            ></i>
+            <img className="w-[36px] h-[36px] rounded-full object-cover" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
             {/* <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span> */}
           </div>
           <div className="size-[16px] flex-1 leading-[16px]">Thu Phương</div>
-        </Link>
+        </div>
       </div>
     </div>
   );

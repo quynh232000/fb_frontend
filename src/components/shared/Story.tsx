@@ -6,7 +6,7 @@ import "swiper/css/free-mode";
 
 import { Navigation } from "swiper/modules";
 import { Link } from "react-router-dom";
-
+import { useMediaQuery } from "@react-hook/media-query";
 const Story = () => {
   const ServiceData = [
     {
@@ -34,11 +34,11 @@ const Story = () => {
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVZCu7-b1doJhi2JObN7Emsjlgmn6XbKeR5LiwdoYGYA&s",
     },
   ];
-
+  const isSmallScreen = useMediaQuery("(max-width: 640px)");
   return (
     <div className="py-4">
       <Swiper
-        slidesPerView={4}
+        slidesPerView={isSmallScreen ? 2 : 4}
         spaceBetween={10}
         breakpoints={{
           340: {
@@ -63,7 +63,7 @@ const Story = () => {
       >
         <SwiperSlide>
           <div className="h-[250px] rounded-lg relative group overflow-hidden cursor-pointer bg-dark-bg">
-            <Link to={"/"}>
+            <Link to={"/story/create"}>
               <img
                 className="w-full object-cover  h-[200px] group-hover:scale-[1.03] transition-all duration-300"
                 src={ServiceData[0].img}
@@ -99,7 +99,7 @@ const Story = () => {
         {ServiceData.map((item, index) => (
           <SwiperSlide key={index}>
             <div className="h-[250px] rounded-lg relative group overflow-hidden cursor-pointer">
-              <Link to={"/"}>
+              <Link to={"/stories/user_id/story_id"}>
                 <img
                   className="w-full object-cover rounded-lg h-full group-hover:scale-[1.03] transition-all duration-300"
                   src={item.img}

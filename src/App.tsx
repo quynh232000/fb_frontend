@@ -1,31 +1,54 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
 import { Routes, Route } from "react-router-dom";
 import { privateRoutes, publicRoutes } from "./routes/routes";
-import AuthLayout from "./layouts/AuthLayout";
-import AppLayout from "./layouts/AppLayout";
-import './components/GlobalStyles/GlobalStyles.css'
-import "./components/GlobalStyles/custom.css"
-
+import "./components/GlobalStyles/GlobalStyles.css";
+import "./components/GlobalStyles/custom.css";
+import ChatBox from "./components/chatbox/ChatBox";
+import { useSelector } from "react-redux";
+import { RootState } from "./redux/reducers";
 function App() {
+  const stateChatBox = useSelector((state: RootState) => state.chatBoxReducer);
   return (
-    <main className="flex  w-full flex-wrap h-screen ">
+    <>
+    <main className="flex px-2 md:px-0 w-full flex-wrap h-screen ">
       <Routes>
-        <Route element={<AuthLayout />}>
-          {publicRoutes.map((route, index) => {
-            const Page = route.component;
-            return <Route key={index} path={route.path} element={<Page />} />;
-          })}
-        </Route>
-        <Route element={<AppLayout />}>
-        {privateRoutes.map((route, index) => {
-          const Page = route.component;
-          return <Route key={index} path={route.path} element={<Page />} />;
+        {publicRoutes.map((item, index) => {
+          const Layout = item.layout;
+          return (
+            <Route key={index} element={<Layout />}>
+              {item.routes.map((route, index) => {
+                const Page = route.component;
+                return (
+                  <Route key={index} path={route.path} element={<Page />} />
+                );
+              })}
+            </Route>
+          );
         })}
-        </Route>
+
+        {privateRoutes.map((item, index) => {
+          const Layout = item.layout;
+          return (
+            <Route key={index} element={<Layout />}>
+              {item.routes.map((route, index) => {
+                const Page = route.component;
+                return (
+                  <Route key={index} path={route.path} element={<Page />} />
+                );
+              })}
+            </Route>
+          );
+        })}
       </Routes>
     </main>
+    {stateChatBox.ids.length > 0 && (
+        <div className="fixed bottom-0 right-[10px] md:right-[80px] z-10 flex gap-4">
+          {stateChatBox.ids.map((id, index) => {
+            return <ChatBox key={index} id={id} />;
+          })}
+        </div>
+      )}
+    </>
+
   );
 }
 

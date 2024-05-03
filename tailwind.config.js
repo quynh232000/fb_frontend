@@ -20,7 +20,10 @@ export default withMT({
     },
     extend: {
       colors: {
+        'primary-300': '#233950',
+        'primary-400': '#0866ff',
         'primary-500': '#0866ff',
+        'primary-700': '#75b6ff',
         'primary-hover':"#1877f2",
         'primary-600': '#0661f4',
         'secondary-500': '#FFB620',
@@ -69,8 +72,11 @@ export default withMT({
         '465': '465px',
         'content':'680px',
         'sidebar':'360px',
+        'sidebar_user':'502px',
+        'user':'1250px',
+        'watch':'964px',
         'height-header':'60px',
-
+        'filter_icon':"invert(59%) sepia(11%) saturate(200%) saturate(135%) hue-rotate(176deg) brightness(96%) contrast(94%)"
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],

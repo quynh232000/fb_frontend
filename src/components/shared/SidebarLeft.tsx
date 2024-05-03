@@ -81,24 +81,12 @@ const SidebarLeft = () => {
   return (
     <div className="flex flex-col h-full overflow-y-scroll pt-4 scrollbar_custom" >
       <Link
-        to={"/profile"}
+        to={"/user/123"}
         className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
       >
         <div>
-          <i
-            data-visualcompletion="css-img"
-            className="rounded-full"
-            style={{
-              backgroundImage:
-                "url('https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-1/279841216_1091212664941555_4727043539452060717_n.jpg?stp=c0.12.40.40a_cp0_dst-jpg_p40x40&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=dJrrCLZDRQkAb4_RiX-&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfB-M3YrI_fO7yOv6xzhAbikBXmzgZdF21-7kaJf0NFdvw&oe=66328E8B')",
-              backgroundPosition: "0 -0px",
-              backgroundSize: "auto",
-              width: "36px",
-              height: "36px",
-              backgroundRepeat: "no-repeat",
-              display: "inline-block",
-            }}
-          ></i>
+          <img className="w-[32px] h-[32px] rounded-full object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
+          
         </div>
         <div className="size-[16px] flex-1 leading-[16px]">JoJo Bin</div>
       </Link>
@@ -146,51 +134,25 @@ const SidebarLeft = () => {
 
       <div>
       <Link
-        to={"/profile"}
+        to={"/groups/123"}
         className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
       >
         <div>
-          <i
-            data-visualcompletion="css-img"
-            className="rounded-lg"
-            style={{
-              backgroundImage:
-                "url('https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-1/279841216_1091212664941555_4727043539452060717_n.jpg?stp=c0.12.40.40a_cp0_dst-jpg_p40x40&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=dJrrCLZDRQkAb4_RiX-&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfB-M3YrI_fO7yOv6xzhAbikBXmzgZdF21-7kaJf0NFdvw&oe=66328E8B')",
-              backgroundPosition: "0 -0px",
-              backgroundSize: "auto",
-              width: "36px",
-              height: "36px",
-              backgroundRepeat: "no-repeat",
-              display: "inline-block",
-            }}
-          ></i>
+        <img className="w-[36px] h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
         </div>
         <div className="size-[16px] flex-1 leading-[16px]">Lập trình PHP - Laravel Việt Nam</div>
       </Link>
       <Link
-        to={"/profile"}
+        to={"/groups/123"}
         className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
       >
         <div>
-          <i
-            data-visualcompletion="css-img"
-            className="rounded-lg"
-            style={{
-              backgroundImage:
-                "url('https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/416584392_122134126508074007_1075186232136014295_n.jpg?stp=c20.0.50.50a_cp0_dst-jpg_p50x50&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=UrTmjq7s-cUAb5WAq_l&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfCUh83a02lHhDkDpYFZNEKqdSDm4jGQbW_sKkZbmzHaPQ&oe=6632AFAC')",
-              backgroundPosition: "0 -0px",
-              backgroundSize: "auto",
-              width: "36px",
-              height: "36px",
-              backgroundRepeat: "no-repeat",
-              display: "inline-block",
-            }}
-          ></i>
+        <img className="w-[36px] h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
         </div>
         <div className="size-[16px] flex-1 leading-[16px]">IT Inter - Fresher</div>
       </Link>
       <Link
-        to={"/profile"}
+        to={"/groups/123"}
         className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
       >
         <div>
@@ -199,7 +161,7 @@ const SidebarLeft = () => {
             className="rounded-lg"
             style={{
               backgroundImage:
-                "url('https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-1/279841216_1091212664941555_4727043539452060717_n.jpg?stp=c0.12.40.40a_cp0_dst-jpg_p40x40&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=dJrrCLZDRQkAb4_RiX-&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfB-M3YrI_fO7yOv6xzhAbikBXmzgZdF21-7kaJf0NFdvw&oe=66328E8B')",
+                "url('https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg')",
               backgroundPosition: "0 -0px",
               backgroundSize: "auto",
               width: "36px",
@@ -212,112 +174,47 @@ const SidebarLeft = () => {
         <div className="size-[16px] flex-1 leading-[16px]">Lập trình PHP - Laravel Việt Nam</div>
       </Link>
       <Link
-        to={"/profile"}
+        to={"/groups/123"}
         className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
       >
         <div>
-          <i
-            data-visualcompletion="css-img"
-            className="rounded-lg"
-            style={{
-              backgroundImage:
-                "url('https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/289619036_109944845090430_8265022046274594962_n.jpg?stp=c23.0.50.50a_cp0_dst-jpg_p50x50&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=yuY8f6F0UBcAb5qIibv&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfAeCS8jNcAhwNsW-7upJevphSPQaQiKgWQtZN2rIlS81g&oe=6632A2EF')",
-              backgroundPosition: "0 -0px",
-              backgroundSize: "auto",
-              width: "36px",
-              height: "36px",
-              backgroundRepeat: "no-repeat",
-              display: "inline-block",
-            }}
-          ></i>
+        <img className="w-[36px] h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
         </div>
         <div className="size-[16px] flex-1 leading-[16px]">IT Inter - Fresher</div>
       </Link>
       <Link
-        to={"/profile"}
+        to={"/groups/123"}
         className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
       >
         <div>
-          <i
-            data-visualcompletion="css-img"
-            className="rounded-lg"
-            style={{
-              backgroundImage:
-                "url('https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-1/279841216_1091212664941555_4727043539452060717_n.jpg?stp=c0.12.40.40a_cp0_dst-jpg_p40x40&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=dJrrCLZDRQkAb4_RiX-&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfB-M3YrI_fO7yOv6xzhAbikBXmzgZdF21-7kaJf0NFdvw&oe=66328E8B')",
-              backgroundPosition: "0 -0px",
-              backgroundSize: "auto",
-              width: "36px",
-              height: "36px",
-              backgroundRepeat: "no-repeat",
-              display: "inline-block",
-            }}
-          ></i>
+        <img className="w-[36px] h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
         </div>
         <div className="size-[16px] flex-1 leading-[16px]">Lập trình PHP - Laravel Việt Nam</div>
       </Link>
       <Link
-        to={"/profile"}
+        to={"/groups/123"}
         className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
       >
         <div>
-          <i
-            data-visualcompletion="css-img"
-            className="rounded-lg"
-            style={{
-              backgroundImage:
-                "url('https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-1/279841216_1091212664941555_4727043539452060717_n.jpg?stp=c0.12.40.40a_cp0_dst-jpg_p40x40&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=dJrrCLZDRQkAb4_RiX-&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfB-M3YrI_fO7yOv6xzhAbikBXmzgZdF21-7kaJf0NFdvw&oe=66328E8B')",
-              backgroundPosition: "0 -0px",
-              backgroundSize: "auto",
-              width: "36px",
-              height: "36px",
-              backgroundRepeat: "no-repeat",
-              display: "inline-block",
-            }}
-          ></i>
+        <img className="w-[36px] h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
         </div>
         <div className="size-[16px] flex-1 leading-[16px]">IT Inter - Fresher</div>
       </Link>
       <Link
-        to={"/profile"}
+        to={"/groups/123"}
         className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
       >
         <div>
-          <i
-            data-visualcompletion="css-img"
-            className="rounded-lg"
-            style={{
-              backgroundImage:
-                "url('https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/289619036_109944845090430_8265022046274594962_n.jpg?stp=c23.0.50.50a_cp0_dst-jpg_p50x50&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=yuY8f6F0UBcAb5qIibv&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfAeCS8jNcAhwNsW-7upJevphSPQaQiKgWQtZN2rIlS81g&oe=6632A2EF')",
-              backgroundPosition: "0 -0px",
-              backgroundSize: "auto",
-              width: "36px",
-              height: "36px",
-              backgroundRepeat: "no-repeat",
-              display: "inline-block",
-            }}
-          ></i>
+        <img className="w-[36px] h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
         </div>
         <div className="size-[16px] flex-1 leading-[16px]">Lập trình PHP - Laravel Việt Nam</div>
       </Link>
       <Link
-        to={"/profile"}
+        to={"/groups/123"}
         className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
       >
         <div>
-          <i
-            data-visualcompletion="css-img"
-            className="rounded-lg"
-            style={{
-              backgroundImage:
-                "url('https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/416584392_122134126508074007_1075186232136014295_n.jpg?stp=c20.0.50.50a_cp0_dst-jpg_p50x50&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=UrTmjq7s-cUAb5WAq_l&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfCUh83a02lHhDkDpYFZNEKqdSDm4jGQbW_sKkZbmzHaPQ&oe=6632AFAC')",
-              backgroundPosition: "0 -0px",
-              backgroundSize: "auto",
-              width: "36px",
-              height: "36px",
-              backgroundRepeat: "no-repeat",
-              display: "inline-block",
-            }}
-          ></i>
+        <img className="w-[36px] h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
         </div>
         <div className="size-[16px] flex-1 leading-[16px]">IT Inter - Fresher</div>
       </Link>

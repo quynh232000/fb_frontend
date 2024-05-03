@@ -1,5 +1,14 @@
+import {
+  Menu,
+  MenuHandler,
+  MenuList,
+} from "@material-tailwind/react";
 import logo from "../../assets/base/logo-no-text.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import HeaderMessage from "./header/HeaderMessage";
+import HeaderNotification from "./header/HeaderNotification";
+import HeaderUser from "./header/HeaderUser";
+import { CiMenuBurger } from "react-icons/ci";
 
 const headerIcons = [
   {
@@ -49,12 +58,7 @@ const headerIcons = [
     title: "Trò chơi",
     path: "/gaming",
     icon: (
-      <svg
-        viewBox="0 0 24 24"
-        width="24"
-        height="24"
-        fill="currentColor"
-      >
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
         <path d="M8 8a1 1 0 0 1 1 1v2h2a1 1 0 1 1 0 2H9v2a1 1 0 1 1-2 0v-2H5a1 1 0 1 1 0-2h2V9a1 1 0 0 1 1-1zm8 2a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0zm-2 4a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0z"></path>
         <path d="M.5 11a7 7 0 0 1 7-7h9a7 7 0 0 1 7 7v2a7 7 0 0 1-7 7h-9a7 7 0 0 1-7-7v-2zm7-5a5 5 0 0 0-5 5v2a5 5 0 0 0 5 5h9a5 5 0 0 0 5-5v-2a5 5 0 0 0-5-5h-9z"></path>
       </svg>
@@ -63,19 +67,35 @@ const headerIcons = [
 ];
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  console.log(location.pathname);
+  const handleActiveBookmark=()=>{
+    
+    if(location.pathname=="/bookmarks"){
+      navigate(-1)
+    }else{
+      console.log(123);
+      navigate("/bookmarks")
+    }
+  }
   return (
-    <header className="flex justify-between w-full bg-header-1 px-[16px] py-[10px] fixed z-10">
+    <header className="flex justify-between w-full bg-header-1 px-[16px] py-[10px] fixed z-50">
       <div className="flex flex-1 gap-2">
-        <img className="w-[40px] h-[40px]" src={logo} alt="logo" />
-        <div className="flex bg-input rounded-[20px] items-center px-3 gap-4 max-w-sidebar]">
+        <Link to={"/"} className="w-[40px] h-[40px]">
+          <img className="w-[40px] h-[40px]" src={logo} alt="logo" />
+        </Link>
+        <div className="flex bg-input rounded-[20px] items-center px-3 gap-4 flex-1]">
           <i className="fa-solid fa-magnifying-glass text-[16px] text-text"></i>
           <input
-            className="bg-input flex-1 w-full"
+            className="bg-input flex-1 w-full hidden sm:block"
             placeholder="Tìm kiếm trên Quinsocial"
           />
         </div>
+        <div onClick={handleActiveBookmark} className={(location.pathname=="/bookmarks"? "bg-primary-500 ":" bg-input ")+"flex cursor-pointer rounded-[20px] items-center px-3 gap-4 max-w-sidebar] lg:hidden"}>
+        <CiMenuBurger />
+        </div>
       </div>
-      <div className="w-content flex justify-around gap-2">
+      <div className=" hidden md:flex-2 lg:w-content w-content lg:flex justify-around gap-2">
         {headerIcons.map((icon, index) => {
           const classCus =
             location.pathname == icon.path
@@ -109,40 +129,75 @@ const Header = () => {
             <path d="M12 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM4 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm8 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm8 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM4 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm8 16a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm8 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM4 17a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"></path>
           </svg>
         </div>
-        <div
-          title="Tin nhắn"
-          className=" w-[40px] h-[40px] bg-input rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-500"
-        >
-          <svg
-            viewBox="0 0 12 13"
-            width="20"
-            height="20"
-            fill="currentColor"
-            className=""
-          >
-            <g fillRule="evenodd" transform="translate(-450 -1073)">
-              <path d="m459.603 1077.948-1.762 2.851a.89.89 0 0 1-1.302.245l-1.402-1.072a.354.354 0 0 0-.433.001l-1.893 1.465c-.253.196-.583-.112-.414-.386l1.763-2.851a.89.89 0 0 1 1.301-.245l1.402 1.072a.354.354 0 0 0 .434-.001l1.893-1.465c.253-.196.582.112.413.386M456 1073.5c-3.38 0-6 2.476-6 5.82 0 1.75.717 3.26 1.884 4.305.099.087.158.21.162.342l.032 1.067a.48.48 0 0 0 .674.425l1.191-.526a.473.473 0 0 1 .32-.024c.548.151 1.13.231 1.737.231 3.38 0 6-2.476 6-5.82 0-3.344-2.62-5.82-6-5.82"></path>
-            </g>
-          </svg>
-        </div>
-        <div
-          title="Thông báo"
-          className=" w-[40px] h-[40px] bg-input rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-500"
-        >
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-            <path d="M3 9.5a9 9 0 1 1 18 0v2.927c0 1.69.475 3.345 1.37 4.778a1.5 1.5 0 0 1-1.272 2.295h-4.625a4.5 4.5 0 0 1-8.946 0H2.902a1.5 1.5 0 0 1-1.272-2.295A9.01 9.01 0 0 0 3 12.43V9.5zm6.55 10a2.5 2.5 0 0 0 4.9 0h-4.9z"></path>
-          </svg>
-        </div>
-        <div title="Tài khoản" className="relative w-fit cursor-pointer">
-          <img
-            className="w-[40px] rounded-full object-cover"
-            src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-1/279841216_1091212664941555_4727043539452060717_n.jpg?stp=c0.12.40.40a_cp0_dst-jpg_p40x40&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=dJrrCLZDRQkQ7kNvgE_RiX-&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfD1nN4xD7BuxxurK0zavEJ29csm7f6_1V4PCGJW_LdVTQ&oe=6632564B"
-            alt=""
-          />
-          <div className="absolute w-[14px] h-[14px] rounded-full right-[-2px] bottom-[0px] bg-input flex items-center justify-center">
-            <i className="fa-solid fa-chevron-down text-[12px] "></i>
-          </div>
-        </div>
+
+        <Menu>
+          <MenuHandler>
+            <div
+              title="Tin nhắn"
+              className=" w-[40px] h-[40px] bg-input rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-500"
+            >
+              <svg
+                viewBox="0 0 12 13"
+                width="20"
+                height="20"
+                fill="currentColor"
+                className=""
+              >
+                <g fillRule="evenodd" transform="translate(-450 -1073)">
+                  <path d="m459.603 1077.948-1.762 2.851a.89.89 0 0 1-1.302.245l-1.402-1.072a.354.354 0 0 0-.433.001l-1.893 1.465c-.253.196-.583-.112-.414-.386l1.763-2.851a.89.89 0 0 1 1.301-.245l1.402 1.072a.354.354 0 0 0 .434-.001l1.893-1.465c.253-.196.582.112.413.386M456 1073.5c-3.38 0-6 2.476-6 5.82 0 1.75.717 3.26 1.884 4.305.099.087.158.21.162.342l.032 1.067a.48.48 0 0 0 .674.425l1.191-.526a.473.473 0 0 1 .32-.024c.548.151 1.13.231 1.737.231 3.38 0 6-2.476 6-5.82 0-3.344-2.62-5.82-6-5.82"></path>
+                </g>
+              </svg>
+            </div>
+          </MenuHandler>
+          <MenuList className="bg-dark-bg border-transparent text-text-1 shadow-md shadow-gray-700 border-t border-input">
+            <>
+              <HeaderMessage />
+            </>
+          </MenuList>
+        </Menu>
+        <Menu>
+          <MenuHandler>
+            <div
+              title="Thông báo"
+              className=" w-[40px] h-[40px] bg-input rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-500"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                fill="currentColor"
+              >
+                <path d="M3 9.5a9 9 0 1 1 18 0v2.927c0 1.69.475 3.345 1.37 4.778a1.5 1.5 0 0 1-1.272 2.295h-4.625a4.5 4.5 0 0 1-8.946 0H2.902a1.5 1.5 0 0 1-1.272-2.295A9.01 9.01 0 0 0 3 12.43V9.5zm6.55 10a2.5 2.5 0 0 0 4.9 0h-4.9z"></path>
+              </svg>
+            </div>
+          </MenuHandler>
+          <MenuList className="bg-dark-bg border-transparent text-text-1 shadow-md shadow-gray-700 border-t border-input">
+            <>
+              {" "}
+              <HeaderNotification />
+            </>
+          </MenuList>
+        </Menu>
+
+        <Menu>
+          <MenuHandler>
+            <div title="Tài khoản" className="relative w-fit cursor-pointer">
+              <img
+                className="w-[40px] h-[40px] rounded-full object-cover"
+                src="https://antimatter.vn/wp-content/uploads/2022/11/hinh-anh-gai-xinh-viet-nam-17-tuoi-cute-nhat.jpg"
+                alt=""
+              />
+              <div className="absolute w-[14px] h-[14px] rounded-full right-[-2px] bottom-[0px] bg-input flex items-center justify-center">
+                <i className="fa-solid fa-chevron-down text-[12px] "></i>
+              </div>
+            </div>
+          </MenuHandler>
+          <MenuList className="bg-dark-bg border-transparent text-text-1 shadow-md shadow-gray-700 border-t border-input">
+            <>
+              <HeaderUser />
+            </>
+          </MenuList>
+        </Menu>
       </div>
     </header>
   );

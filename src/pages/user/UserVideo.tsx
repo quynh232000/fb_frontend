@@ -1,8 +1,20 @@
+import { useSelector } from "react-redux";
 import UserPhotoItem from "../../components/item/user/UserPhotoItem";
 import UserMap from "./UserMap";
+import { RootState } from "../../redux/reducers";
+import { useEffect, useState } from "react";
+import { getMediaUser } from "../../services/UserService";
+import { PostMediaModel } from "../../types/post";
 
 const UserVideo = () => {
-  const link = "https://docs.material-tailwind.com/demo.mp4";
+  const stateApp = useSelector((state: RootState) => state.appReducer);
+  const user = stateApp.currentUser;
+  const [mediaUser, setMediaUser] = useState([]);
+  useEffect(() => {
+    user && getMediaUser(user.uuid,'video').then((res) => {
+      res.status && setMediaUser(res.data);
+    });
+  }, [user]);
   return (
     <div className="flex flex-col gap-4">
       <div className="bg-dark-bg px-4 py-2 rounded-lg">
@@ -17,16 +29,20 @@ const UserVideo = () => {
           </div>
         </div>
         <div className="grid  grid-cols-3 md:grid-cols-4 lg:grid-cols-6   gap-4 py-4">
-          <UserPhotoItem type={"video"} link={link} />
-          <UserPhotoItem type={"video"} link={link} />
-          <UserPhotoItem type={"video"} link={link} />
-          <UserPhotoItem type={"video"} link={link} />
-          <UserPhotoItem type={"video"} link={link} />
-          <UserPhotoItem type={"video"} link={link} />
-          <UserPhotoItem type={"video"} link={link} />
-          <UserPhotoItem type={"video"} link={link} />
-          <UserPhotoItem type={"video"} link={link} />
-          <UserPhotoItem type={"video"} link={link} />
+          
+        {mediaUser.length > 0 &&
+          mediaUser.map((item: PostMediaModel) => {
+            const files = JSON.parse(item.file);
+
+            return files.map((file: string, index: number) => {
+              return (
+                <UserPhotoItem key={item.uuid} i={index} uuid={item.uuid} type="video"  link={file}/>
+               
+              );
+            });
+          })}
+
+        
         </div>
       </div>
       <UserMap/>

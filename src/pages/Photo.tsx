@@ -1,18 +1,82 @@
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import SidebarPhoto from "../components/shared/SidebarPhoto";
 import { IoMdClose } from "react-icons/io";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  getPostDetailByPostMediaMedia,
+  getPostMedia,
+} from "../services/PostService";
+import { PostMedumModel, PostModel } from "../types/post";
+import { Spinner } from "@material-tailwind/react";
 
+type TypeFile = {
+  mediaUuid: string;
+  file: string;
+  index: number;
+  type: string;
+};
+
+type FileState = {
+  [typeFile: string]: TypeFile[];
+};
 const Photo = () => {
-const type  ="image";
-const link ="https://i.pinimg.com/736x/ef/50/5c/ef505c7189912b5b30478dd129cfebb9.jpg"
-    const location = useLocation();
-    console.log(location.pathname);
-    
+  const [isLoading, setIsloading] = useState(true);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const path = location.pathname;
+  const postMediaId = path.split("/")[2];
+  const typeFile = path.split("/")[1];
+
+  const paramIndex = parseInt(searchParams.get("i") ?? "1", 10);
+  const [indexImage, setIndexImage] = useState(paramIndex - 1);
+
   const navigate = useNavigate();
   const handleBack = () => {
-    navigate(-1);
+    navigate("/");
   };
+  useEffect(() => {
+    setIndexImage(paramIndex - 1);
+  }, [paramIndex]);
+  const [postMedia, setPostMedia] = useState<FileState>({
+    photo: [],
+    video: [],
+  });
+  const [listMedia, setListMedia] = useState<TypeFile[]>([]);
+  const [post, setPost] = useState<PostModel | null>();
+  useEffect(() => {
+    getPostMedia(postMediaId).then((res) => {
+      if (res.status) {
+        const data = res.data;
+        const fileState: FileState = { photo: [], video: [] };
+        let listMedia_: TypeFile[] = [];
+        data.map((media: PostMedumModel) => {
+          const files = JSON.parse(media.file);
+          files.map((file: string, index: number) => {
+            const item = {
+              mediaUuid: media.uuid,
+              file: file,
+              index: index,
+              type: media.file_type,
+            };
+            listMedia_ = [...listMedia_, item];
+            if (media.file_type == "image") {
+              fileState.photo.push(item);
+            } else {
+              fileState.video.push(item);
+            }
+          });
+        });
+        setListMedia(listMedia_);
+        setPostMedia(fileState);
+        setIsloading(false);
+      }
+    });
+    getPostDetailByPostMediaMedia(postMediaId).then((res) => {
+      res.status && setPost(res.data);
+    });
+  }, [postMediaId]);
+
   return (
     <div className="absolute top-0 left-0 right-0 bottom-0 bg-black z-10">
       <div className="flex h-full flex-col md:flex-row ">
@@ -24,33 +88,63 @@ const link ="https://i.pinimg.com/736x/ef/50/5c/ef505c7189912b5b30478dd129cfebb9
             <IoMdClose />
           </div>
           <div className="flex p-2 items-center ">
-            <div className="bg-[rgba(22,22,24,1)] text-text hover:tex-text-1 hover:bg-input cursor-pointer p-4 rounded-full text-[22px]">
+            <Link
+              to={
+                1 < paramIndex
+                  ? `/${
+                      listMedia[paramIndex - 2]?.type == "image"
+                        ? "photo"
+                        : "video"
+                    }/${listMedia[paramIndex - 2]?.mediaUuid}?i=` +
+                    (paramIndex - 1)
+                  : "?i=1"
+              }
+              className="bg-[rgba(22,22,24,1)] text-text hover:tex-text-1 hover:bg-input cursor-pointer p-4 rounded-full text-[22px]"
+            >
               <FaAngleLeft />
-            </div>
+            </Link>
           </div>
           <div className=" flex-1 justify-center flex">
             <div className="  flex-1 flex justify-center items-end">
-              {type == "image"?(<img
-                className="w-full h-full object-contain"
-                src={link}
-                alt=""
-              />):(<video className="h-full w-full rounded-lg" controls autoPlay>
-              <source
-                src={link}
-                type="video/mp4"
-              />
-              Your browser does not support the video tag.
-            </video>)}
+              {isLoading ? (
+                <div className="h-full flex items-center justify-center"><Spinner className="h-12 w-12" /></div>
+              ) : typeFile == "photo" ? (
+                <img
+                  className="w-full h-full object-contain"
+                  // src={paramIndex ? postMedia[indexImage] : ""}
+                  src={postMedia[typeFile][indexImage]?.file}
+                  alt="Image"
+                />
+              ) : (
+                <video className="h-full w-full rounded-0" controls autoPlay>
+                  <source
+                    src={postMedia[typeFile][indexImage]?.file}
+                    type="video/mp4"
+                  />
+                  Your browser does not support the video tag.
+                </video>
+              )}
             </div>
           </div>
           <div className="flex items-center p-2">
-            <div className="bg-[rgba(22,22,24,1)] text-text hover:tex-text-1 hover:bg-input cursor-pointer p-4 rounded-full text-[22px]">
+            <Link
+              to={
+                listMedia.length > paramIndex
+                  ? `/${
+                      listMedia[paramIndex]?.type == "image" ? "photo" : "video"
+                    }/${listMedia[paramIndex]?.mediaUuid}?i=` +
+                    (paramIndex + 1)
+                  : `?i=` + listMedia?.length
+              }
+              className="bg-[rgba(22,22,24,1)] text-text hover:tex-text-1 hover:bg-input cursor-pointer p-4 rounded-full text-[22px]"
+            >
               <FaAngleRight />
-            </div>
+            </Link>
           </div>
         </div>
         <div className="w-full md:w-sidebar  bg-dark-bg border-t border-input relative ">
-          <SidebarPhoto />
+          {/* <SidebarPhoto  postMediaId={postMediaId}/> */}
+          {post && <SidebarPhoto post={post} />}
         </div>
       </div>
     </div>

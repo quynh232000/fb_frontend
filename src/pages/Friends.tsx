@@ -6,6 +6,8 @@ import {
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import AddFriendItem from "../components/item/AddFriendItem";
+import { useEffect, useState } from "react";
+import { getListUsers, getRequestFriend } from "../services/UserService";
 
 const arrayLinks = [
   {
@@ -34,6 +36,17 @@ const Friends = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const paramType = searchParams.get("type") ?? "all";
+  const [users, setUsers] = useState([]);
+  const [requestFriend, setRequestFriend] = useState([]);
+  useEffect(() => {
+    getListUsers().then((res) => {
+      if (res.status) setUsers(res.data);
+    });
+    getRequestFriend().then((res) => {
+      if (res.status) setRequestFriend(res.data);
+    });
+  }, []);
+
   return (
     <div className=" h-full flex flex-col lg:flex-row">
       <div className="hidden md:block w-full lg:w-sidebar bg-dark-bg border-r border-input p-2">
@@ -77,18 +90,22 @@ const Friends = () => {
                   Xem tất cả
                 </Link>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5   lg:grid-cols-3 gap-2 p-4">
-                <AddFriendItem type="requests" />
-                <AddFriendItem type="requests" />
-                <AddFriendItem type="requests" />
-                <AddFriendItem type="requests" />
-                <AddFriendItem type="requests" />
-                <AddFriendItem type="requests" />
-                <AddFriendItem type="requests" />
-                <AddFriendItem type="requests" />
-                <AddFriendItem type="requests" />
-                <AddFriendItem type="requests" />
-              </div>
+              {requestFriend.length > 0 ? (
+                requestFriend.map((user, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4   lg:grid-cols-3 gap-2 p-4 "
+                    >
+                      <AddFriendItem user={user} type="requests" />
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="text-center w-full py-5">
+                  Không có lời mời kết bạn nào!
+                </div>
+              )}
             </div>
           )}
           {paramType != "requests" && (
@@ -104,17 +121,17 @@ const Friends = () => {
                   Xem tất cả
                 </Link>
               </div>
-              <div className="grid grid-cols-5 gap-2 p-4">
-                <AddFriendItem type="suggestion" />
-                <AddFriendItem type="suggestion" />
-                <AddFriendItem type="suggestion" />
-                <AddFriendItem type="suggestion" />
-                <AddFriendItem type="suggestion" />
-                <AddFriendItem type="suggestion" />
-                <AddFriendItem type="suggestion" />
-                <AddFriendItem type="suggestion" />
-                <AddFriendItem type="suggestion" />
-                <AddFriendItem type="suggestion" />
+              <div className="grid grid-cols-4 gap-2 p-4">
+                {users.length > 0 &&
+                  users.map((user, index) => {
+                    return (
+                      <AddFriendItem
+                        key={index}
+                        user={user}
+                        type="suggestion"
+                      />
+                    );
+                  })}
               </div>
             </div>
           )}

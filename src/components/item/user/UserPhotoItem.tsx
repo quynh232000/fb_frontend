@@ -12,29 +12,29 @@ import { MdModeEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 type UserPhotoItemProps = {
-  type: string;
   link: string;
+  uuid: string;
+  i: number;
+  type:string
 };
-const UserPhotoItem = ({ type, link }: UserPhotoItemProps) => {
+const UserPhotoItem = ({ type,i, uuid, link }: UserPhotoItemProps) => {
+  
   return (
     <div className="w-full relative">
       {type == "image" ? (
-        <Link to={"/photo/ádasd"} className="w-full rounded-lg">
-          <img
-            className="w-full rounded-lg"
-            src={link}
-            alt=""
-          />
+        <Link to={"/photo/" + uuid + "?i=" + (i+1)} className="w-full rounded-lg h-[180px]">
+          <img className="w-full rounded-lg  h-[180px] object-cover" src={link} alt="" />
         </Link>
       ) : (
         <Link to={"/photo/ádasd"} className="w-full rounded-lg">
-          <video className="h-full w-full rounded-lg object-contain" controls autoPlay>
-              <source
-                src={link}
-                type="video/mp4"
-              />
-              Your browser does not support the video tag.
-            </video>
+          <video
+            className="h-full w-full rounded-lg object-contain"
+            controls
+            autoPlay
+          >
+            <source src={link} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </Link>
       )}
       <div className="bg-input hover:bg-gray-700 cursor-pointer p-2 rounded-full absolute top-[10px] right-[10px]">

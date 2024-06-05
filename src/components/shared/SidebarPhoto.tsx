@@ -22,9 +22,70 @@ import { RiMessage3Fill } from "react-icons/ri";
 import icon_like from "../../assets/base/icon/icon_like.svg";
 import icon_heart from "../../assets/base/icon/icon_heart.svg";
 import icon_haha from "../../assets/base/icon/icon_haha.svg";
-import CommentItem from "../comment/CommentItem";
 import { IoSend } from "react-icons/io5";
-const SidebarPhoto = () => {
+import { ChangeEvent, FormEvent, useState } from "react";
+import avatar_user from "../../assets/base/avatar_user.webp";
+import {
+  commentPost,
+  getListComment,
+  likePost,
+} from "../../services/PostService";
+import { DataPost, PostModel } from "../../types/post";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/reducers";
+import CommentItem from "../comment/CommentItem";
+type SidebarPhotoProps = {
+  // postMediaId: string;
+  post: PostModel;
+};
+const SidebarPhoto = ({ post }: SidebarPhotoProps) => {
+  const stateAuth = useSelector((state: RootState) => state.authReducer);
+  
+  const [isLike, setIsLike] = useState(post.isLikePost);
+  const [countLike, setCountLike] = useState(post.likes_count);
+  const [countComment, setCountComment] = useState(post.comments_count);
+  const [listComment, setListComment] = useState(post.comments);
+  
+  const [formData, setFormData] = useState<DataPost>({
+    post_id: post.id,
+    comment: "",
+  });
+  const handleLike = () => {
+    post &&
+      likePost(post.id).then((res) => {
+        isLike
+          ? setCountLike((prev) => prev - 1)
+          : setCountLike((prev) => prev + 1);
+        res.status && setIsLike(!isLike);
+      });
+  };
+  const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+  const handleComment = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (formData.comment) {
+      setFormData({...formData})
+      commentPost(formData).then((res) => {
+        if (res.status) {
+          setFormData({ ...formData, comment: "" });
+          setCountComment((prev) => prev + 1);
+          post &&
+            getListComment(post.id).then((res) => {
+              res.status && setListComment(res.data);
+            });
+        }
+      });
+    }
+  };
+  const handleShowComment = () => {
+    post &&
+      getListComment(post.id).then((res) => {
+        res.status && setListComment(prev=>[...res.data,...prev]);
+      });
+  };
+
   return (
     <div className="flex flex-col h-full overflow-y-scroll pt-4  scrollbar_custom_hidden ">
       <div className="flex flex-col px-4 ">
@@ -36,7 +97,7 @@ const SidebarPhoto = () => {
             <span className=" text-[13px]">Ảnh này nằm trong 1 bài viết.</span>
           </div>
           <Link
-            to={"/post/123"}
+            to={"/post/" + post?.uuid}
             className="text-text-1 text-[12px] hover:underline font-bold"
           >
             Xem bài viết
@@ -45,16 +106,18 @@ const SidebarPhoto = () => {
         <div className="flex gap-3 py-2">
           <div className="w-[40px] h-[40px] rounded-full ">
             <img
-              className="rounded-full"
-              src="https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-1/352078467_757332169466702_3854047880902309300_n.jpg?stp=cp0_dst-jpg_p40x40&_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=XAMzh9ES9JgAb5UABaJ&_nc_ht=scontent.fsgn2-7.fna&oh=00_AfBPQacmg_zdj5C3lfn9c98EwUI5dA1qbD4R1mHtz49w0A&oe=66369EFF"
+              className="rounded-full w-full h-full object-cover"
+              src={post?.user?.avatar ?? avatar_user}
               alt=""
             />
           </div>
           <div className="flex gap-2 flex-1 ">
             <div className="flex flex-col flex-1">
-              <Link to={"/user/123"}>Thiên Mộc Hương</Link>
+              <Link to={"/user/" + post?.user.uuid}>
+                {post ? post?.user.first_name + " " + post?.user.last_name : ""}
+              </Link>
               <div className="flex items-center gap-1 text-[14px] text-text font-medium">
-                <div>2 giờ</div>
+                <div>{post?.created_at.split("T")[0]}</div>
                 <span>·</span>
                 <div>
                   <svg
@@ -191,16 +254,22 @@ const SidebarPhoto = () => {
                   <img className="w-[18px] h-[18px]" src={icon_haha} alt="" />
                 </div>
               </div>
-              <span>28K </span>
+              <span>{countLike} </span>
             </Link>
             <Link to="/" className="flex gap-2">
-              <div>14</div>
-              <span>K</span>
+              <div>{countComment}</div>
+              {/* <span>K</span> */}
             </Link>
           </div>
         </div>
         <div className="flex justify-between items-center py-1 border-t border-b border-input text-text">
-          <div className=" font-medium flex items-center gap-2 justify-center flex-1 p-2 hover:bg-input cursor-pointer rounded-md">
+          <div
+            onClick={handleLike}
+            className={
+              (isLike ? "text-primary-500 " : "") +
+              " font-medium flex items-center gap-2 justify-center flex-1 p-2 hover:bg-input cursor-pointer rounded-md"
+            }
+          >
             <AiFillLike className="size-[20px]" />
             <span>Like</span>
           </div>
@@ -215,48 +284,56 @@ const SidebarPhoto = () => {
         </div>
 
         <div className="flex flex-col gap-2 py-2">
-          <div className="text-text font-medium cursor-pointer hover:text-gray-400 hover:underline">
-            Xem thêm bình luận
+          {post && post?.comments?.length > 10 && (
+            <div
+              onClick={handleShowComment}
+              className="text-text font-medium cursor-pointer hover:text-gray-400 hover:underline"
+            >
+              Xem thêm bình luận
+            </div>
+          )}
+
+          <div className="mt-4">
+            {(listComment.length >0) &&
+              listComment.map((comment, index) => {
+                return <CommentItem key={index} comment={comment} />;
+              })}
           </div>
-          <div>
-            <CommentItem />
-            <CommentItem />
-            <CommentItem />
-            <CommentItem />
-            <CommentItem />
-            <CommentItem />
-            <CommentItem />
-            <CommentItem />
-            <CommentItem />
-            <CommentItem />
-            <CommentItem />
-            <CommentItem />
-            <CommentItem />
-            <CommentItem />
-            <CommentItem />
-          </div>
-          
         </div>
       </div>
       <div className="flex gap-2 items-center absolute bottom-0 bg-dark-bg right-0 left-0 p-4">
-            <div className="w-[32px] h-[32px] rounded-full">
-              <img
-                className="w-full h-full rounded-full"
-                src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-1/279841216_1091212664941555_4727043539452060717_n.jpg?stp=c0.9.32.32a_cp0_dst-jpg_p32x32&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=Lv_cvTdyTjoAb61XbQA&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfAZ8J3T96v2Mr6sJPy9mowLUoAAXXfQ6cy6NXZAHEOpeQ&oe=6634508B"
-                alt=""
-              />
-            </div>
-            <div className="flex-1 flex items-center bg-input rounded-full px-4 py-1">
-              <input
-                type="text"
-                placeholder="Bình luận với vai trò JuJo Bin"
-                className="flex-1 bg-transparent"
-              />
-              <button className="hover:bg-dark-bg hover:text-primary-500 pr-2 py-2 pl-3 rounded-full flex justify-center items-center">
-                <IoSend />
-              </button>
-            </div>
-          </div>
+        <div className="w-[32px] h-[32px] rounded-full">
+          <img
+            className="w-full h-full rounded-full"
+            src={stateAuth.user.avatar ?? avatar_user}
+            alt=""
+          />
+        </div>
+        <form
+          onSubmit={handleComment}
+          className="flex-1 flex items-center bg-input rounded-full px-4 py-1"
+        >
+          <input
+            onChange={handleChangeInput}
+            name="comment"
+            type="text"
+            value={formData.comment}
+            placeholder={
+              "Bình luận với vai trò " +
+              stateAuth.user.first_name +
+              " " +
+              stateAuth.user.last_name
+            }
+            className="flex-1 bg-transparent"
+          />
+          <button
+            type="submit"
+            className="hover:bg-dark-bg hover:text-primary-500 pr-2 py-2 pl-3 rounded-full flex justify-center items-center"
+          >
+            <IoSend />
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

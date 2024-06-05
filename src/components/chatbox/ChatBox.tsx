@@ -5,13 +5,15 @@ import { IoSend } from "react-icons/io5";
 import ChatBoxItem from "./ChatBoxItem";
 import { useDispatch } from "react-redux";
 import { closeChat } from "../../redux/reducers/chatBoxReducer";
+import { UserModel } from "../../types/post";
+import avatar_user from "../../assets/base/avatar_user.webp"
 type chatBoxProps ={
-  id:number
+  user:UserModel
 }
-const ChatBox = ({id}:chatBoxProps) => {
+const ChatBox = ({user}:chatBoxProps) => {
   const dispatch = useDispatch();
   const handleCloseChat =()=>{
-    dispatch(closeChat(id))
+    dispatch(closeChat(user.id))
   }
   return (
     <div className="">
@@ -20,13 +22,13 @@ const ChatBox = ({id}:chatBoxProps) => {
           <div className="flex gap-2 items-center p-1 hover:bg-input rounded-lg cursor-pointer">
             <div className="w-[32px] h-[32px] rounded-full">
               <img
-              className="w-full h-full rounded-full"
-                src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t1.6435-1/83786509_586639818947009_1582074134311993344_n.jpg?stp=dst-jpg_p100x100&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=ztnuFRZrYowAb4aSpP9&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfDbGTttdOW_Uv75L3m3J0DbWlbAqa0LCwYUvSjeSRkrXQ&oe=6656D339"
+              className="w-full h-full rounded-full object-cover"
+                src={user.avatar ??avatar_user}
                 alt=""
               />
             </div>
             <div className="flex flex-col gap-0">
-              <h4 className="font-bold text-text-1">Trần Minh Sang</h4>
+              <h4 className="font-bold text-text-1">{user.first_name +" "+user.last_name}</h4>
               <div className="text-[13px] text-text">Đang hoạt động</div>
             </div>
             <div className="text-text mx-1">

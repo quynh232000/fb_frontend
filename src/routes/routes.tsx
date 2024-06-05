@@ -26,6 +26,9 @@ import GroupsJoins from "../pages/group/GroupsJoins";
 import GroupInfo from "../pages/group/GroupInfo";
 import Bookmark from "../pages/Bookmark";
 import SinglePost from "../pages/SinglePost";
+import VerifyEmailNotification from "../pages/VerifyEmailNotification";
+import VerifyEmail from "../pages/VerifyEmail";
+import ResendEmailVerify from "../pages/ResendEmailVerify";
 const publicRoutes = [
     {
         layout:AuthLayout,
@@ -37,6 +40,18 @@ const publicRoutes = [
             {
                 path: defineRoutes.signup,
                 component:SignunForm
+            },
+            {
+                path: defineRoutes.verify_email_notification,
+                component:VerifyEmailNotification
+            },
+            {
+                path: defineRoutes.verify_email,
+                component:VerifyEmail
+            },
+            {
+                path: defineRoutes.resend_email,
+                component:ResendEmailVerify
             },
         ]
     },
@@ -67,6 +82,10 @@ const privateRoutes =[
             },
             {
                 path:defineRoutes.photo,
+                component:Photo
+            },
+            {
+                path:defineRoutes.video,
                 component:Photo
             },
         ]

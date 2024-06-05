@@ -1,15 +1,26 @@
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openChat } from "../../redux/reducers/chatBoxReducer";
+import { useEffect, useState } from "react";
+import { RootState } from "../../redux/reducers";
+import { getListFriend } from "../../services/UserService";
+import { UserModel } from "../../types/post";
+import avatar_user from "../../assets/base/avatar_user.webp"
 const SidebarRight = () => {
   const dispatch = useDispatch();
-  
-  
-  const handleOpenChat = (id:number) => {
-    dispatch(
-      openChat(id)
-    );
-  }
+  const { user } = useSelector((state: RootState) => state.authReducer);
+  const [friends, setFriends] = useState<UserModel[]|null>(null);
+
+  const handleOpenChat = (friend: UserModel) => {
+    dispatch(openChat(friend));
+  };
+  useEffect(() => {
+    getListFriend(user.uuid).then((res) => {
+      if (res && res.status) {
+        setFriends(res.data);
+      }
+    });
+  }, [user]);
 
   return (
     <div className="flex flex-col h-full overflow-y-scroll pt-4  scrollbar_custom_hidden">
@@ -35,7 +46,6 @@ const SidebarRight = () => {
               </span>
             </Link>
           </div>
-          
         </div>
         <div className="flex gap-4 items-center w-100 hover:bg-input p-2 rounded-lg cursor-pointer">
           <div className="w-30 object-cover rounded-lg">
@@ -72,8 +82,11 @@ const SidebarRight = () => {
           className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
         >
           <div>
-            <img className="w-[36px]  h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="" />
-            
+            <img
+              className="w-[36px]  h-[36px] rounded-lg object-cover"
+              src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg"
+              alt=""
+            />
           </div>
           <div className="size-[16px] flex-1 leading-[16px]">
             Lập trình PHP - Laravel Việt Nam
@@ -125,87 +138,23 @@ const SidebarRight = () => {
       </div>
 
       <div className="flex flex-col">
-        <div
-          onClick={()=>handleOpenChat(1)}
+        {friends && friends.length >0 ? friends.map((friend,index)=>{
+          return <div
+          key={index}
+          onClick={() => handleOpenChat(friend)}
           className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
         >
           <div className="relative">
-            <img className="w-[36px] h-[36px] rounded-full object-cover border-2 border-primary-500" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
-            <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span>
-          </div>
-          <div className="size-[16px] flex-1 leading-[16px]">JoJo Bin</div>
-        </div>
-        <div onClick={()=>handleOpenChat(2)}
-          
-          className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-        >
-          <div className="relative">
-            <img className="w-[36px] h-[36px] border-2 border-primary-500 rounded-full object-cover" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
-        
+            <img
+              className="w-[36px] h-[36px] rounded-full object-cover"
+              src={friend.avatar ?? avatar_user}
+              alt="avatar user"
+            />
             {/* <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span> */}
           </div>
-          <div className="size-[16px] flex-1 leading-[16px]">Nguyễn Năng</div>
+          <div className="size-[16px] flex-1 leading-[16px]">{friend.first_name+" "+friend.last_name}</div>
         </div>
-        <div onClick={()=>handleOpenChat(3)}
-       
-          className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-        >
-          <div className="relative">
-          <img className="w-[36px] h-[36px] rounded-full object-cover" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
-            {/* <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span> */}
-          </div>
-          <div className="size-[16px] flex-1 leading-[16px]">Huyền Trang</div>
-        </div>
-        <div onClick={()=>handleOpenChat(4)}
-          
-          className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-        >
-          <div className="relative">
-          <img className="w-[36px] h-[36px] rounded-full object-cover" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
-            {/* <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span> */}
-          </div>
-          <div className="size-[16px] flex-1 leading-[16px]">Thu Phương</div>
-        </div>
-        <div onClick={()=>handleOpenChat(5)}
-          
-          className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-        >
-          <div className="relative">
-            <img className="w-[36px] h-[36px] rounded-full object-cover" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
-            <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span>
-          </div>
-          <div className="size-[16px] flex-1 leading-[16px]">JoJo Bin</div>
-        </div>
-        <div onClick={()=>handleOpenChat(6)}
-          
-          className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-        >
-          <div className="relative">
-          <img className="w-[36px] h-[36px] rounded-full object-cover" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
-            {/* <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span> */}
-          </div>
-          <div className="size-[16px] flex-1 leading-[16px]">Nguyễn Năng</div>
-        </div>
-        <div onClick={()=>handleOpenChat(7)}
-          
-          className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-        >
-          <div className="relative">
-          <img className="w-[36px] h-[36px] rounded-full object-cover" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
-            {/* <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span> */}
-          </div>
-          <div className="size-[16px] flex-1 leading-[16px]">Huyền Trang</div>
-        </div>
-        <div
-          onClick={()=>handleOpenChat(8)}
-          className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-        >
-          <div className="relative">
-            <img className="w-[36px] h-[36px] rounded-full object-cover" src="https://vsmall.vn/wp-content/uploads/2022/06/hinh-anh-con-gai-cute-de-thuong-cute-anime-hoat-hinh-xinh-48.jpg" alt="" />
-            {/* <span className="absolute border-[6px] border-green-500 rounded-full bottom-[8px] right-[-2px]"></span> */}
-          </div>
-          <div className="size-[16px] flex-1 leading-[16px]">Thu Phương</div>
-        </div>
+        }):<div className="text-center py-5">...</div>}
       </div>
     </div>
   );

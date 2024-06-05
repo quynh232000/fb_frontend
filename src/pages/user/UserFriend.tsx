@@ -9,8 +9,21 @@ import { BsThreeDots } from "react-icons/bs";
 import { IoIosSearch } from "react-icons/io";
 import { Link } from "react-router-dom";
 import MyFriendItem from "../../components/item/user/MyFriendItem";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/reducers";
+import { useEffect, useState } from "react";
+import { getListFriend } from "../../services/UserService";
 
 const UserFriend = () => {
+  const stateApp = useSelector((state: RootState) => state.appReducer);
+  const user = stateApp.currentUser;
+  const [friends,setFriends] = useState([])
+  useEffect(()=>{
+    user && getListFriend(user.uuid).then((res) => {
+      res.status && setFriends(res.data)
+    });
+  },[user])
+  
   return (
     <div className="bg-dark-bg px-4 py-2 rounded-lg">
       <div className="flex flex-col gap-4 py-2">
@@ -98,11 +111,10 @@ const UserFriend = () => {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4 py-4">
-        <MyFriendItem />
-        <MyFriendItem />
-        <MyFriendItem />
-        <MyFriendItem />
-        <MyFriendItem />
+        {friends.length >0 && friends.map((friend,index) =>{
+          return <MyFriendItem key={index} user={friend} />
+        })}
+       
       </div>
     </div>
   );

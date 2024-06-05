@@ -1,5 +1,8 @@
-
-import { Link } from "react-router-dom";
+import { ChangeEvent, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserLogin } from "../../types/user";
+import { login } from "../../services/UserService";
+import { Spinner } from "@material-tailwind/react";
 // import { RootState } from "../../redux/reducers";
 // import { useDispatch, useSelector } from "react-redux";
 // import { increment } from "../../redux/reducers/testReducer";
@@ -9,12 +12,51 @@ const SigninForm = () => {
   //   (state: RootState) => state.someReducer.someValue
   // );
   // const dispatch = useDispatch();
-//   <div>
-//   <p>Some Value: {someValue}</p>
-//   <button onClick={() => dispatch(increment())}>
-//     Dispatch Action
-//   </button>
-// </div>
+  //   <div>
+  //   <p>Some Value: {someValue}</p>
+  //   <button onClick={() => dispatch(increment())}>
+  //     Dispatch Action
+  //   </button>
+  // </div>
+  const [formData, setFormData] = useState<UserLogin>({
+    email: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMess, setErrorMess] = useState("");
+  const navigate = useNavigate();
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    login(formData).then((res) => {
+      if (!res.status) {
+        if (res.links && res.links.redirect) {
+          navigate(res.links.redirect);
+        } else {
+          const arr = Object.values(res.data);
+          setErrorMess(arr[0] ?? res.message);
+        }
+      } else {
+        console.log(1232);
+        
+        localStorage.setItem("USER_TOKEN", res.meta.access_token);
+        localStorage.setItem("TOKEN_TYPE", res.meta.token_type);
+        // navigate("/");
+        window.location.href ="/"
+      }
+      setIsLoading(false);
+    });
+  };
   return (
     <div className="flex items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
       <div className="w-1/2 flex flex-col gap-4 ">
@@ -31,7 +73,11 @@ const SigninForm = () => {
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Đăng nhập để bắt đầu
           </h1>
-          <form className="space-y-4 md:space-y-6" action="#">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4 md:space-y-6"
+            action="#"
+          >
             <div>
               <label
                 htmlFor="email"
@@ -43,6 +89,8 @@ const SigninForm = () => {
                 type="email"
                 name="email"
                 id="email"
+                value={formData.email}
+                onChange={handleInputChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name@gmail.com"
                 required
@@ -58,6 +106,8 @@ const SigninForm = () => {
               <input
                 type="password"
                 name="password"
+                value={formData.password}
+                onChange={handleInputChange}
                 id="password"
                 placeholder="••••••••"
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -91,11 +141,21 @@ const SigninForm = () => {
                 Quên mật khẩu?
               </a>
             </div>
+            <div className="text-red">{errorMess && errorMess}</div>
             <button
               type="submit"
-              className="w-full text-white bg-primary-500 hover:bg-primary-hover focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              className={
+                (isLoading
+                  ? "text-white bg-gray-500 hover:bg-gray-500 cursor-not-allowed "
+                  : " text-white bg-primary-500 hover:bg-primary-hover ") +
+                " w-full text-[16px] flex items-end justify-center   focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              }
             >
-              Đăng nhập
+              {isLoading ? (
+                <Spinner className="h-[20px] w-[20px]" color="blue" />
+              ) : (
+                "Đăng nhập"
+              )}
             </button>
             <p className="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
               Bạn chưa có tài khoản?

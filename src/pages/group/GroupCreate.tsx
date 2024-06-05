@@ -4,14 +4,40 @@ import { FaRegEye } from "react-icons/fa";
 import CreatePost from "../../components/shared/CreatePost";
 import React, { useState } from "react";
 import { IoLockClosed } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/reducers";
+import avatar_user from "../../assets/base/avatar_user.webp";
+import { createGroup } from "../../services/GroupService";
+import { useNavigate } from "react-router-dom";
+import { setNotify } from "../../redux/reducers/appReducer";
 const GroupCreate = () => {
+  const stateAuth = useSelector((state: RootState) => state.authReducer);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false)
   const [nameGroup, setNameGroup] = useState("");
-  const [type, setType] = useState("public");
+  const [type, setType] = useState("0");
   const handleSetName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNameGroup(e.target.value);
   };
   const handleChangeType = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setType(e.target.value);
+  };
+  // create group
+  const handleSubmit = () => {
+    setLoading(true)
+    createGroup({ name: nameGroup, is_private: type }).then((res) => {
+      if (res && res.status) {
+        navigate("/groups/" + res.data.uuid);
+        dispatch(
+          setNotify({
+            type: "success",
+            message: "Tạo nhóm thành công!",
+          })
+        );
+      }
+      setLoading(false)
+    });
   };
   return (
     <div className=" h-full flex">
@@ -20,13 +46,15 @@ const GroupCreate = () => {
         <div className="flex gap-3 items-center py-4">
           <div className="w-[40px] h-[40px] rounded-full">
             <img
-              className="w-full h-full rounded-full"
-              src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-1/279841216_1091212664941555_4727043539452060717_n.jpg?stp=c0.12.40.40a_cp0_dst-jpg_p40x40&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=TczCeiD4000Q7kNvgFizW6m&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfDTHNLoN6IoI4fTf4t6KZFMAdvNDZrD39s-2QRe_Rs-ig&oe=6638450B"
+              className="w-full h-full rounded-full object-cover"
+              src={stateAuth.user.avatar ?? avatar_user}
               alt=""
             />
           </div>
           <div className="text-text">
-            <div className="font-bold">JuJo Bin</div>
+            <div className="font-bold">
+              {stateAuth.user.first_name + " " + stateAuth.user.last_name}
+            </div>
             <span className="text-[14px]">Quản trị viên</span>
           </div>
         </div>
@@ -38,6 +66,7 @@ const GroupCreate = () => {
             <div className="w-full">
               <input
                 type="text"
+                name="name"
                 className="w-full bg-transparent"
                 onChange={handleSetName}
                 placeholder="Aa.."
@@ -49,15 +78,20 @@ const GroupCreate = () => {
               Chọn quyền riêng tư
             </label>
             <div className="w-full">
-              <select name="" id="" onChange={handleChangeType} className="w-full bg-transparent ">
+              <select
+                name="is_private"
+                id=""
+                onChange={handleChangeType}
+                className="w-full bg-transparent "
+              >
                 <option
-                  value="public"
+                  value="0"
                   className="text-text-1 p-2 bg-input hover:bginput"
                 >
                   Công khai
                 </option>
                 <option
-                  value="private"
+                  value="1"
                   className="text-text-1 p-2 bg-input hover:bginput"
                 >
                   Riêng tư
@@ -73,9 +107,20 @@ const GroupCreate = () => {
         </div>
         <div className="flex-1 flex items-end ">
           {/* hover:opacity-90 bg-primary-500 */}
-          <button className={(nameGroup ?"hover:opacity-90 bg-primary-500 ":"bg-gray-800 text-gray-500 cursor-not-allowed ")+"   w-full p-2 font-medium rounded-lg "}>
-            Tạo
-          </button>
+          {(nameGroup && !loading) ? (
+            <button
+              onClick={handleSubmit}
+              className={
+                "hover:opacity-90 bg-primary-500   w-full p-2 font-medium rounded-lg "
+              }
+            >
+              Tạo
+            </button>
+          ) : (
+            <button className="bg-gray-800 text-gray-500 cursor-not-allowed w-full p-2 font-medium rounded-lg ">
+              Tạo
+            </button>
+          )}
         </div>
       </div>
       <div className="hidden md:flex flex-1 p-[30px] ">
@@ -91,7 +136,7 @@ const GroupCreate = () => {
               </div>
               <div className="flex px-4 gap-2 items-center text-gray-500">
                 <FaEarthAmericas />
-                Nhóm {type == "public" ? "Công khai" : "Riên tư"} - 1 thành viên
+                Nhóm {type == "0" ? "Công khai" : "Riêng tư"} - 1 thành viên
               </div>
               <div className=" p-4">
                 <div className="flex border-t border-input">
@@ -105,7 +150,7 @@ const GroupCreate = () => {
             <div className="bg-dark-1 flex-1 py-4 px-[40px] flex-col gap-4 text-text-1">
               <div className="bg-dark-bg rounded-lg p-4 flex flex-col gap-4">
                 <div className="text-[20px] font-bold">Giới thiệu</div>
-                {type != "public" ? (
+                {type == "1" ? (
                   <div className="flex gap-4 items-center">
                     <div className="text-[20px]">
                       <IoLockClosed />
@@ -132,7 +177,7 @@ const GroupCreate = () => {
                     </div>
                   </div>
                 )}
-                <div className="flex gap-4 items-center">
+                {/* <div className="flex gap-4 items-center">
                   <div className="text-[20px]">
                     <FaEarthAmericas />
                   </div>
@@ -143,7 +188,7 @@ const GroupCreate = () => {
                       những gì họ đăng.
                     </span>
                   </div>
-                </div>
+                </div> */}
                 <div className="flex gap-4 items-center">
                   <div className="text-[20px]">
                     <FaRegEye />

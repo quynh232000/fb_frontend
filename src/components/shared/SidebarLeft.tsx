@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import sidebarIcon from "../../assets/base/sidebar_left-icon.png";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/reducers";
+import avatar_user from "../../assets/base/avatar_user.webp";
+import { GroupModel } from "../../types/app";
+import { getMyGroups, groupJoined } from "../../services/GroupService";
+import bg from "../../assets/base/bg_view_create_group.svg"
 const sidebarItems = [
   {
     id: 1,
@@ -77,18 +83,38 @@ const sidebarItems = [
   },
 ];
 const SidebarLeft = () => {
+  const [myGroupJoined, setMyGroupJoined] = useState<GroupModel[] >([]);
   const [sidebar, setSidebar] = useState(false);
+  const stateAuth = useSelector((state: RootState) => state.authReducer);
+  const user = stateAuth.user;
+  useEffect(() => {
+    getMyGroups().then((res) => {
+      if (res && res.status) {
+        groupJoined().then((res2) => {
+          if (res2 && res2.status) {
+            setMyGroupJoined([...res.data,...res2.data]);
+          }
+        });
+      }
+    });
+  }, []);
+
   return (
-    <div className="flex flex-col h-full overflow-y-scroll pt-4 scrollbar_custom" >
+    <div className="flex flex-col h-full overflow-y-scroll pt-4 scrollbar_custom">
       <Link
-        to={"/user/123"}
+        to={"/user/" + user.uuid}
         className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
       >
         <div>
-          <img className="w-[32px] h-[32px] rounded-full object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
-          
+          <img
+            className="w-[32px] h-[32px] rounded-full object-cover"
+            src={user.avatar ?? avatar_user}
+            alt="avatar"
+          />
         </div>
-        <div className="size-[16px] flex-1 leading-[16px]">JoJo Bin</div>
+        <div className="size-[16px] flex-1 leading-[16px]">
+          {user.first_name + " " + user.last_name}
+        </div>
       </Link>
       {sidebarItems.map((item, index) => {
         if (!sidebar && index >= 5) {
@@ -122,106 +148,55 @@ const SidebarLeft = () => {
         );
       })}
 
-      <div onClick={()=>{setSidebar(!sidebar)}} className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer ">
+      <div
+        onClick={() => {
+          setSidebar(!sidebar);
+        }}
+        className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
+      >
         <div className="rounded-full bg-input w-[36px] h-[36px] flex items-center justify-center">
-          <i className={"fa-solid fa-chevron-"+(sidebar?"up":"down")+" text-[18px]"}></i>
+          <i
+            className={
+              "fa-solid fa-chevron-" +
+              (sidebar ? "up" : "down") +
+              " text-[18px]"
+            }
+          ></i>
         </div>
-        <div className="size-[16px] flex-1 leading-[16px]">{sidebar?"Ẩn bớt":"Xem thêm"}</div>
+        <div className="size-[16px] flex-1 leading-[16px]">
+          {sidebar ? "Ẩn bớt" : "Xem thêm"}
+        </div>
       </div>
       <div className="px-[8px] mt-2">
-        <div className="text-lg text-gray-300 border-t border-gray-700 py-3 font-semibold">Lối tắt của bạn</div>
+        <div className="text-lg text-gray-300 border-t border-gray-700 py-3 font-semibold">
+          Lối tắt của bạn
+        </div>
       </div>
 
       <div>
-      <Link
-        to={"/groups/123"}
-        className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-      >
-        <div>
-        <img className="w-[36px] h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
-        </div>
-        <div className="size-[16px] flex-1 leading-[16px]">Lập trình PHP - Laravel Việt Nam</div>
-      </Link>
-      <Link
-        to={"/groups/123"}
-        className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-      >
-        <div>
-        <img className="w-[36px] h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
-        </div>
-        <div className="size-[16px] flex-1 leading-[16px]">IT Inter - Fresher</div>
-      </Link>
-      <Link
-        to={"/groups/123"}
-        className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-      >
-        <div>
-          <i
-            data-visualcompletion="css-img"
-            className="rounded-lg"
-            style={{
-              backgroundImage:
-                "url('https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg')",
-              backgroundPosition: "0 -0px",
-              backgroundSize: "auto",
-              width: "36px",
-              height: "36px",
-              backgroundRepeat: "no-repeat",
-              display: "inline-block",
-            }}
-          ></i>
-        </div>
-        <div className="size-[16px] flex-1 leading-[16px]">Lập trình PHP - Laravel Việt Nam</div>
-      </Link>
-      <Link
-        to={"/groups/123"}
-        className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-      >
-        <div>
-        <img className="w-[36px] h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
-        </div>
-        <div className="size-[16px] flex-1 leading-[16px]">IT Inter - Fresher</div>
-      </Link>
-      <Link
-        to={"/groups/123"}
-        className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-      >
-        <div>
-        <img className="w-[36px] h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
-        </div>
-        <div className="size-[16px] flex-1 leading-[16px]">Lập trình PHP - Laravel Việt Nam</div>
-      </Link>
-      <Link
-        to={"/groups/123"}
-        className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-      >
-        <div>
-        <img className="w-[36px] h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
-        </div>
-        <div className="size-[16px] flex-1 leading-[16px]">IT Inter - Fresher</div>
-      </Link>
-      <Link
-        to={"/groups/123"}
-        className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-      >
-        <div>
-        <img className="w-[36px] h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
-        </div>
-        <div className="size-[16px] flex-1 leading-[16px]">Lập trình PHP - Laravel Việt Nam</div>
-      </Link>
-      <Link
-        to={"/groups/123"}
-        className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
-      >
-        <div>
-        <img className="w-[36px] h-[36px] rounded-lg object-cover" src="https://haycafe.vn/wp-content/uploads/2022/02/Anh-gai-xinh-Viet-Nam-mu-hong.jpg" alt="image" />
-        </div>
-        <div className="size-[16px] flex-1 leading-[16px]">IT Inter - Fresher</div>
-      </Link>
+        {myGroupJoined &&
+          myGroupJoined.length > 0 ?
+          myGroupJoined.map((group, index) => {
+            return (
+              <Link
+              key={index}
+                to={"/groups/"+group.uuid}
+                className="flex items-center hover:bg-input rounded-lg px-2 py-2 gap-3 font-bold cursor-pointer "
+              >
+                <div>
+                  <img
+                    className="w-[36px] h-[36px] rounded-lg object-cover"
+                    src={group.thumbnail ?? bg}
+                    alt="image"
+                  />
+                </div>
+                <div className=" flex-1 ">
+                 {group.name}
+                </div>
+              </Link>
+            );
+          }):<div className="flex justify-center">...</div>}
       </div>
-
-
-
     </div>
   );
 };

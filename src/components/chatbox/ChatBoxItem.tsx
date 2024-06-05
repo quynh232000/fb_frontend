@@ -16,7 +16,7 @@ const ChatBoxItem = ({ type = "left" }: ChatBoxItemProps) => {
           <div className="w-[28px] h-[28px] rounded-full">
             <img
               className="w-full h-full rounded-full object-cover"
-              src="https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-1/352116379_582416770685979_473319283735363550_n.jpg?stp=dst-jpg_p100x100&_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=WxQN5W6UObkAb4vo9uK&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfDvYzIMSg1rWnOR--9WThqvWQAZ6Cb7tiCgFv6qwnsBcQ&oe=663525CB"
+              src="https://static01.nyt.com/images/2021/09/14/science/07CAT-STRIPES/07CAT-STRIPES-mediumSquareAt3X-v2.jpg"
               alt=""
             />
           </div>
@@ -47,7 +47,7 @@ const ChatBoxItem = ({ type = "left" }: ChatBoxItemProps) => {
               <div className="max-w-[200px]">
                 <img
                   className="w-full h-full object-cover rounded-lg"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxegV219s_yTxjgOCnMxocPr6uOuFDRn0d66AtBUmFuP4X5mVTV3V2io4KvqDeX-PmGHs&usqp=CAU"
+                  src="https://res.cloudinary.com/dhglwzgm3/image/upload/v1717389002/rdavczysjwkhpzd1f8bu.webp"
                   alt=""
                 />
               </div>

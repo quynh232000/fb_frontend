@@ -1,8 +1,12 @@
 import Tippy from "@tippyjs/react";
 import TippyUserView from "../tippy/TippyUserView";
 import { Link } from "react-router-dom";
-
-const UserFriendItem = () => {
+import { UserModel } from "../../types/post";
+import avatar_user from "../../assets/base/avatar_user.webp"
+type UserFriendItemProps ={
+  user:UserModel
+}
+const UserFriendItem = ({user}:UserFriendItemProps) => {
   
   return (
       <Tippy
@@ -10,18 +14,18 @@ const UserFriendItem = () => {
         interactive
         placement="bottom"
         delay={[200, 200]}
-        render={() => <TippyUserView />}
+        render={() => <TippyUserView user={user}/>}
        
       >
-    <Link to={"/user/12421"} className="flex flex-col gap-2">
-        <div className="rounded-lg">
+    <Link to={"/user/"+user.uuid} className="flex flex-col gap-2">
+        <div className="rounded-lg h-[160px]">
           <img
             className="rounded-lg w-full h-full object-cover"
-            src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-1/428699561_314333184970090_54279162792916637_n.jpg?stp=dst-jpg_s148x148&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=XKvZt-LOBk8Ab5Uqjfi&_nc_ht=scontent.fsgn2-4.fna&oh=00_AfCqQHdF-Pkg97RfJXd1J9wdzUdYVn3IEeaaOKUCI21Eqw&oe=663689F3"
+            src={user.avatar ?? avatar_user}
             alt=""
           />
         </div>
-      <div className="font-medium text-[14px] text-text-1">Ngân Trần</div>
+      <div className="font-medium text-[14px] text-text-1">{user.first_name+" "+user.last_name}</div>
     </Link>
       </Tippy>
   );

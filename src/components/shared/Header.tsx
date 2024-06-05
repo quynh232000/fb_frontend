@@ -1,14 +1,13 @@
-import {
-  Menu,
-  MenuHandler,
-  MenuList,
-} from "@material-tailwind/react";
+import { Menu, MenuHandler, MenuList } from "@material-tailwind/react";
 import logo from "../../assets/base/logo-no-text.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import HeaderMessage from "./header/HeaderMessage";
 import HeaderNotification from "./header/HeaderNotification";
 import HeaderUser from "./header/HeaderUser";
 import { CiMenuBurger } from "react-icons/ci";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/reducers";
+import avatar_user from "../../assets/base/avatar_user.webp";
 
 const headerIcons = [
   {
@@ -68,16 +67,15 @@ const headerIcons = [
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location.pathname);
-  const handleActiveBookmark=()=>{
-    
-    if(location.pathname=="/bookmarks"){
-      navigate(-1)
-    }else{
-      console.log(123);
-      navigate("/bookmarks")
+  const handleActiveBookmark = () => {
+    if (location.pathname == "/bookmarks") {
+      navigate(-1);
+    } else {
+      navigate("/bookmarks");
     }
-  }
+  };
+  const stateAuth = useSelector((state: RootState) => state.authReducer);
+  const user = stateAuth.user;
   return (
     <header className="flex justify-between w-full bg-header-1 px-[16px] py-[10px] fixed z-50">
       <div className="flex flex-1 gap-2">
@@ -91,8 +89,16 @@ const Header = () => {
             placeholder="Tìm kiếm trên Quinsocial"
           />
         </div>
-        <div onClick={handleActiveBookmark} className={(location.pathname=="/bookmarks"? "bg-primary-500 ":" bg-input ")+"flex cursor-pointer rounded-[20px] items-center px-3 gap-4 max-w-sidebar] lg:hidden"}>
-        <CiMenuBurger />
+        <div
+          onClick={handleActiveBookmark}
+          className={
+            (location.pathname == "/bookmarks"
+              ? "bg-primary-500 "
+              : " bg-input ") +
+            "flex cursor-pointer rounded-[20px] items-center px-3 gap-4 max-w-sidebar] lg:hidden"
+          }
+        >
+          <CiMenuBurger />
         </div>
       </div>
       <div className=" hidden md:flex-2 lg:w-content w-content lg:flex justify-around gap-2">
@@ -184,7 +190,7 @@ const Header = () => {
             <div title="Tài khoản" className="relative w-fit cursor-pointer">
               <img
                 className="w-[40px] h-[40px] rounded-full object-cover"
-                src="https://antimatter.vn/wp-content/uploads/2022/11/hinh-anh-gai-xinh-viet-nam-17-tuoi-cute-nhat.jpg"
+                src={user.avatar || avatar_user}
                 alt=""
               />
               <div className="absolute w-[14px] h-[14px] rounded-full right-[-2px] bottom-[0px] bg-input flex items-center justify-center">
@@ -194,7 +200,11 @@ const Header = () => {
           </MenuHandler>
           <MenuList className="bg-dark-bg border-transparent text-text-1 shadow-md shadow-gray-700 border-t border-input">
             <>
-              <HeaderUser />
+              <HeaderUser
+                uuid={user.uuid}
+                name={user.first_name + " " + user.last_name}
+                avatar={user.avatar || avatar_user}
+              />
             </>
           </MenuList>
         </Menu>
